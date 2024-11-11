@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order - AirBiru</title>
+    <link rel="stylesheet" href="../css/order.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="logo">
+        <img src="../img/logo.jpg" alt="AirBiru Logo" class="logo-image" />
+        <a class="name">Air Biru</a>
+      </div>
+      <ul class="nav-list" id="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Form Pemesanan -->
+    <div class="content">
+      <h1>Form Pemesanan Isi Ulang/Galon</h1>
+
+      <form id="orderForm">
+        <label for="orderId">ID:</label>
+        <input type="text" id="orderId" name="orderId" required />
+
+        <label for="receiverName">Nama Penerima:</label>
+        <input type="text" id="receiverName" name="receiverName" required />
+
+        <label for="receiverAddress">Alamat Penerima:</label>
+        <input type="text" id="receiverAddress" name="receiverAddress" required />
+
+        <label for="receiverPhone">Nomor Telepon:</label>
+        <input type="tel" id="receiverPhone" name="receiverPhone" required />
+
+        <button type="button" onclick="submitOrder()">Pesan</button>
+      </form>
+
+      <h2>Riwayat Pemesanan</h2>
+      <ul id="orderHistory"></ul>
+    </div>
+
+    <script>
+      const orderHistory = [];
+
+      function submitOrder() {
+        const orderId = document.getElementById("orderId").value;
+        const receiverName = document.getElementById("receiverName").value;
+        const receiverAddress = document.getElementById("receiverAddress").value;
+        const receiverPhone = document.getElementById("receiverPhone").value;
+
+        const now = new Date();
+        const dateString = now.toLocaleDateString(); // Tanggal
+        const timeString = now.toLocaleTimeString(); // Jam
+        const orderDetails = {
+          id: orderId,
+          name: receiverName,
+          address: receiverAddress,
+          phone: receiverPhone,
+          date: dateString,
+          time: timeString,
+        };
+
+        orderHistory.push(orderDetails);
+
+        // Tampilkan riwayat pemesanan
+        const orderHistoryList = document.getElementById("orderHistory");
+        orderHistoryList.innerHTML = "";
+        orderHistory.forEach((order) => {
+          const li = document.createElement("li");
+          li.classList.add("order-item"); // Tambahkan kelas untuk styling
+          li.innerHTML = `
+                    <strong>ID:</strong> ${order.id}<br>
+                    <strong>Nama:</strong> ${order.name}<br>
+                    <strong>Alamat:</strong> ${order.address}<br>
+                    <strong>Telepon:</strong> ${order.phone}<br>
+                    <strong>Tanggal:</strong> ${order.date}<br>
+                    <strong>Jam:</strong> ${order.time}
+                `;
+          orderHistoryList.appendChild(li);
+        });
+
+        // Reset form
+        document.getElementById("orderForm").reset();
+      }
+    </script>
+  </body>
+</html>
